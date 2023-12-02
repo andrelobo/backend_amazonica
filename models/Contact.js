@@ -14,6 +14,39 @@ const ContactSchema = new mongoose.Schema({
     type: String,
     required: [true, "email is required."],
   },
+  endereco: String,
+  bairro: String,
+  cpf: {
+    type: String,
+    match: /^\d{3}\.\d{3}\.\d{3}-\d{2}$/, // Validar formato de CPF
+  },
+  forma_pagamento: String,
+  prescricao: {
+    type: String,
+    maxlength: 400,
+  },
+  codigo_armacao: String,
+  codigo_lente: String,
+  compras: [
+    {
+      valor_total: Number, // Valor total da compra
+      quantidade_parcelas: Number, // Quantidade de parcelas
+      parcelas: [
+        {
+          numero: Number, // Número da parcela (ex: 1, 2, 3...)
+          valor: Number, // Valor da parcela
+          data_vencimento: Date, // Data de vencimento da parcela
+          status: {
+            type: String,
+            enum: ['pendente', 'pago', 'atrasado'], // Status da parcela
+            default: 'pendente', // Inicia como pendente
+          },
+        },
+      ],
+    },
+  ],
+  preco: Number,
+  
   phone: {
     type: Number,
     required: [true, "phone number is required."],
@@ -41,3 +74,12 @@ module.exports = {
   validateContact,
   Contact,
 };
+
+
+
+
+
+
+
+
+  
